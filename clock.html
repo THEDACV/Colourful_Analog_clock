@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colorful Animated Analog Clock</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #1a1a1a;
+        color: white;
+        font-family: "Arial", sans-serif;
+      }
+
+      .clock {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        border: 10px solid transparent;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffcc00, #ff6600);
+        box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(255, 102, 0, 1);
+        }
+        100% {
+          box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+        }
+      }
+
+      .hand {
+        position: absolute;
+        background: linear-gradient(to top, #ff6600, #ffcc00);
+        border-radius: 10px;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .hour {
+        width: 8px;
+        height: 60px;
+        bottom: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .minute {
+        width: 6px;
+        height: 80px;
+        bottom: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .second {
+        width: 4px;
+        height: 100px;
+        bottom: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: red;
+      }
+
+      .center-circle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="clock">
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+      <div class="center-circle"></div>
+    </div>
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+
+        const secondDeg = (seconds / 60) * 360 + 90; // 90 degrees offset
+        const minuteDeg = (minutes / 60) * 360 + (seconds / 60) * 6 + 90; // 90 degrees offset
+        const hourDeg = (hours / 12) * 360 + (minutes / 60) * 30 + 90; // 90 degrees offset
+
+        document.getElementById(
+          "second"
+        ).style.transform = `rotate(${secondDeg}deg)`;
+        document.getElementById(
+          "minute"
+        ).style.transform = `rotate(${minuteDeg}deg)`;
+        document.getElementById(
+          "hour"
+        ).style.transform = `rotate(${hourDeg}deg)`;
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock(); // initial call
+    </script>
+  </body>
+</html>
